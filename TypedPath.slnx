@@ -1,0 +1,4 @@
+﻿<Solution>
+    <Project Path="SourceGenerator\SourceGenerator.csproj" Type="Classic C#" />
+    <Project Path="Test\Test.csproj" Type="Classic C#" />
+</Solution>
