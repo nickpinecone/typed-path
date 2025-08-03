@@ -1,6 +1,6 @@
 ﻿using TypedPath;
 
-namespace Test;
+namespace Sample;
 
 [TypedPath("Assets")]
 public static partial class Assets

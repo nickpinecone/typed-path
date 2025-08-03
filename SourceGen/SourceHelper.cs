@@ -1,4 +1,4 @@
-namespace SourceGenerator;
+namespace SourceGen;
 
 public static class SourceHelper
 {
@@ -21,7 +21,7 @@ public static class SourceHelper
     public static string GenerateClass(string name)
     {
         return $@"
-namespace Test;
+namespace Sample;
 
 public static partial class {name}
 {{
