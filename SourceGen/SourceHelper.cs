@@ -22,35 +22,36 @@ public static class SourceHelper
         }
         """;
 
-    public static string GenerateClass(string name, string pathValue, string namespaceName,
+    public static string GenerateTyped(string name, string attrPath, string namespaceName,
         ImmutableArray<AdditionalText> files)
     {
         var builder = new StringBuilder();
+
         if (!string.IsNullOrEmpty(namespaceName))
         {
             builder.AppendLine($"namespace {namespaceName};");
             builder.AppendLine("");
         }
 
+        builder.AppendLine("[global::System.CodeDom.Compiler.GeneratedCode(\"TypedPath\", \"1.0.0\")]");
         builder.AppendLine($"public static partial class {name}");
         builder.AppendLine("{");
 
         foreach (var file in files)
         {
             var filename = Path.GetFileNameWithoutExtension(file.Path).ToPascalCase();
-            var split = file.Path.Split([pathValue], StringSplitOptions.None);
-            
+            var split = file.Path.Split([attrPath], StringSplitOptions.None);
+
             if (split.Length < 2)
             {
                 continue;
             }
 
-            var path = split.Last();
+            var relativePath = split.Last();
+            var paths = relativePath.Split([Path.DirectorySeparatorChar], StringSplitOptions.RemoveEmptyEntries);
+            var final = $"{name}{relativePath}";
 
-            var subFolders = path.Split([Path.DirectorySeparatorChar], StringSplitOptions.RemoveEmptyEntries);
-            var relative = $"{name}{split.Last()}";
-
-            GenerateNested(builder, subFolders, 0, filename, relative);
+            GenerateNested(builder, paths, 0, filename, final);
         }
 
         builder.AppendLine("}");
@@ -62,15 +63,25 @@ public static class SourceHelper
     {
         if (current >= paths.Length - 1)
         {
-            builder.AppendLine($"   public const string {name} = \"{value}\";");
+            builder.Append(CalculateIndent(current));
+            builder.AppendLine($"public const string {name} = \"{value}\";");
             return;
         }
 
+        builder.Append(CalculateIndent(current));
         builder.AppendLine($"public static partial class {paths[current]}");
+
+        builder.Append(CalculateIndent(current));
         builder.AppendLine("{");
 
         GenerateNested(builder, paths, current + 1, name, value);
 
+        builder.Append(CalculateIndent(current));
         builder.AppendLine("}");
+    }
+
+    private static string CalculateIndent(int current)
+    {
+        return string.Join("", Enumerable.Repeat("    ", current + 1));
     }
 }

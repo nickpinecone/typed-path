@@ -42,13 +42,13 @@ public class PathGenerator : IIncrementalGenerator
         var attr = tuple.ClassSymbol.GetAttributes()
             .First(a => a.AttributeClass?.Name == "TypedPathAttribute");
 
-        var pathValue = attr.GetArgumentValue("Path") ?? name;
+        var attrPath = attr.GetArgumentValue("Path") ?? name;
 
         var namespaceName = tuple.ClassSymbol.ContainingNamespace.ToDisplayString();
 
         context.AddSource(
             $"TypedPath.{name}.g.cs",
-            SourceText.From(SourceHelper.GenerateClass(name, pathValue, namespaceName, tuple.Files), Encoding.UTF8)
+            SourceText.From(SourceHelper.GenerateTyped(name, attrPath, namespaceName, tuple.Files), Encoding.UTF8)
         );
     }
 }
