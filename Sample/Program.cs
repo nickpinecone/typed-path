@@ -11,6 +11,6 @@ public class Program
 {
     public static void Main(string[] args)
     {
-        // Console.WriteLine(Assets.SampleText);
+        Console.WriteLine(Assets.SubFolder.NestedText);
     }
 }
