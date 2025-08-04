@@ -23,18 +23,32 @@ public class PathGenerator : IIncrementalGenerator
             .ForAttributeWithMetadataName(
                 "TypedPath.TypedPathAttribute",
                 predicate: static (syntax, _) => syntax is ClassDeclarationSyntax,
-                transform: static (ctx, _) => (ClassDeclarationSyntax)ctx.TargetNode
+                transform: static (ctx, _) => ctx.SemanticModel.GetDeclaredSymbol(ctx.TargetNode)
             )
             .Where(static m => m is not null)
+            .Select(static (m, _) => m!)
             .Combine(files);
 
         context.RegisterSourceOutput(classes, (ctx, source) => Execute(source, ctx));
     }
 
-    private static void Execute((ClassDeclarationSyntax ClassSyntax, ImmutableArray<AdditionalText> Files) tuple,
-        SourceProductionContext context)
+    private static void Execute(
+        (ISymbol ClassSyntax, ImmutableArray<AdditionalText> Files) tuple,
+        SourceProductionContext context
+    )
     {
-        context.AddSource($"TypedPath.{tuple.ClassSyntax.Identifier.Text}.g.cs",
-            SourceText.From(SourceHelper.GenerateClass(tuple.ClassSyntax.Identifier.Text, tuple.Files), Encoding.UTF8));
+        var name = tuple.ClassSyntax.Name;
+
+        var myAttribute = tuple.ClassSyntax.GetAttributes()
+            .First(a => a.AttributeClass?.Name == "TypedPathAttribute");
+
+        var pathValue = myAttribute.GetAttributeArgumentValue("Path") ?? name;
+
+        var namespaceName = tuple.ClassSyntax.ContainingNamespace.ToDisplayString();
+
+        context.AddSource(
+            $"TypedPath.{name}.g.cs",
+            SourceText.From(SourceHelper.GenerateClass(name, pathValue, namespaceName, tuple.Files), Encoding.UTF8)
+        );
     }
 }
