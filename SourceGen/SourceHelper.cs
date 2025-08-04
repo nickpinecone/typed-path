@@ -39,6 +39,12 @@ public static class SourceHelper
         {
             var filename = Path.GetFileNameWithoutExtension(file.Path).ToPascalCase();
             var split = file.Path.Split([pathValue], StringSplitOptions.None);
+            
+            if (split.Length < 2)
+            {
+                continue;
+            }
+
             var path = split.Last();
 
             var subFolders = path.Split([Path.DirectorySeparatorChar], StringSplitOptions.RemoveEmptyEntries);
