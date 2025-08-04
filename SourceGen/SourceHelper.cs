@@ -39,13 +39,32 @@ public static class SourceHelper
         {
             var filename = Path.GetFileNameWithoutExtension(file.Path).ToPascalCase();
             var split = file.Path.Split([pathValue], StringSplitOptions.None);
+            var path = split.Last();
+
+            var subFolders = path.Split([Path.DirectorySeparatorChar], StringSplitOptions.RemoveEmptyEntries);
             var relative = $"{name}{split.Last()}";
 
-            builder.AppendLine($"   public const string {filename} = \"{relative}\";");
+            GenerateNested(builder, subFolders, 0, filename, relative);
         }
 
         builder.AppendLine("}");
 
         return builder.ToString();
+    }
+
+    private static void GenerateNested(StringBuilder builder, string[] paths, int current, string name, string value)
+    {
+        if (current >= paths.Length - 1)
+        {
+            builder.AppendLine($"   public const string {name} = \"{value}\";");
+            return;
+        }
+
+        builder.AppendLine($"public static partial class {paths[current]}");
+        builder.AppendLine("{");
+
+        GenerateNested(builder, paths, current + 1, name, value);
+
+        builder.AppendLine("}");
     }
 }
