@@ -4,7 +4,7 @@ namespace SourceGen;
 
 public static class AttributeHelper
 {
-    public static string? GetAttributeArgumentValue(this AttributeData attribute, string argumentName)
+    public static string? GetArgumentValue(this AttributeData attribute, string argumentName)
     {
         foreach (var namedArg in attribute.NamedArguments)
         {
