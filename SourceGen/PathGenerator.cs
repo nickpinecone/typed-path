@@ -33,18 +33,18 @@ public class PathGenerator : IIncrementalGenerator
     }
 
     private static void Execute(
-        (ISymbol ClassSyntax, ImmutableArray<AdditionalText> Files) tuple,
+        (ISymbol ClassSymbol, ImmutableArray<AdditionalText> Files) tuple,
         SourceProductionContext context
     )
     {
-        var name = tuple.ClassSyntax.Name;
+        var name = tuple.ClassSymbol.Name;
 
-        var myAttribute = tuple.ClassSyntax.GetAttributes()
+        var attr = tuple.ClassSymbol.GetAttributes()
             .First(a => a.AttributeClass?.Name == "TypedPathAttribute");
 
-        var pathValue = myAttribute.GetAttributeArgumentValue("Path") ?? name;
+        var pathValue = attr.GetArgumentValue("Path") ?? name;
 
-        var namespaceName = tuple.ClassSyntax.ContainingNamespace.ToDisplayString();
+        var namespaceName = tuple.ClassSymbol.ContainingNamespace.ToDisplayString();
 
         context.AddSource(
             $"TypedPath.{name}.g.cs",
