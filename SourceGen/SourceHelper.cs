@@ -7,9 +7,10 @@ namespace SourceGen;
 public static class SourceHelper
 {
     public static string Attribute =>
-        """
+        $$"""
         namespace TypedPath;
 
+        {{GeneratedCodeAttribute}}
         [AttributeUsage(AttributeTargets.Class)]
         public class TypedPathAttribute : Attribute
         {
@@ -22,6 +23,20 @@ public static class SourceHelper
         }
         """;
 
+    public static string Interface =>
+        $$"""
+        namespace TypedPath;
+
+        {{GeneratedCodeAttribute}}
+        public interface ITypedPath
+        {
+            public static abstract string Wrap(string path);
+        }
+        """;
+
+    private static string GeneratedCodeAttribute =>
+        "[global::System.CodeDom.Compiler.GeneratedCode(\"TypedPath\", \"1.0.0\")]";
+
     public static string GenerateTyped(string name, string attrPath, string namespaceName,
         ImmutableArray<AdditionalText> files)
     {
@@ -33,8 +48,8 @@ public static class SourceHelper
             builder.AppendLine("");
         }
 
-        builder.AppendLine("[global::System.CodeDom.Compiler.GeneratedCode(\"TypedPath\", \"1.0.0\")]");
-        builder.AppendLine($"public static partial class {name}");
+        builder.AppendLine(GeneratedCodeAttribute);
+        builder.AppendLine($"public partial class {name}");
         builder.AppendLine("{");
 
         foreach (var file in files)
@@ -64,7 +79,7 @@ public static class SourceHelper
         if (current >= paths.Length - 1)
         {
             builder.Append(CalculateIndent(current));
-            builder.AppendLine($"public const string {name} = \"{value}\";");
+            builder.AppendLine($"public static readonly string {name} = Wrap(\"{value}\");");
             return;
         }
 

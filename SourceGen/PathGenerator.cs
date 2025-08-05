@@ -17,6 +17,11 @@ public class PathGenerator : IIncrementalGenerator
             SourceText.From(SourceHelper.Attribute, Encoding.UTF8))
         );
 
+        context.RegisterPostInitializationOutput(ctx => ctx.AddSource(
+            "TypedPathInterface.g.cs",
+            SourceText.From(SourceHelper.Interface, Encoding.UTF8))
+        );
+
         var files = context.AdditionalTextsProvider.Collect();
 
         var classes = context.SyntaxProvider
