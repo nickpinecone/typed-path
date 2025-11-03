@@ -4,7 +4,7 @@
 ## Install
 Install the package from nuget
 ```sh
-dotnet add package ...
+dotnet add package Pinecone.TypedPath
 ```
 
 ## Configuration
