@@ -6,33 +6,40 @@ namespace SourceGen;
 
 public static class SourceHelper
 {
+    private static string Usings =>
+        """
+        using System;
+        """;
+
     public static string Attribute =>
         $$"""
-        namespace TypedPath;
+          {{Usings}}
 
-        {{GeneratedCodeAttribute}}
-        [AttributeUsage(AttributeTargets.Class)]
-        public class TypedPathAttribute : Attribute
-        {
-            public string Path { get; }
+          namespace TypedPath;
 
-            public TypedPathAttribute(string path)
-            {
-                Path = path;
-            }
-        }
-        """;
+          {{GeneratedCodeAttribute}}
+          [AttributeUsage(AttributeTargets.Class)]
+          public class TypedPathAttribute : Attribute
+          {
+              public string Path { get; }
+
+              public TypedPathAttribute(string path)
+              {
+                  Path = path;
+              }
+          }
+          """;
 
     public static string Interface =>
         $$"""
-        namespace TypedPath;
+          namespace TypedPath;
 
-        {{GeneratedCodeAttribute}}
-        public interface ITypedPath
-        {
-            public static abstract string Wrap(string path);
-        }
-        """;
+          {{GeneratedCodeAttribute}}
+          public interface ITypedPath
+          {
+              public static abstract string Wrap(string path);
+          }
+          """;
 
     private static string GeneratedCodeAttribute =>
         "[global::System.CodeDom.Compiler.GeneratedCode(\"TypedPath\", \"1.0.0\")]";
