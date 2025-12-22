@@ -3,10 +3,11 @@
         <OutputType>Exe</OutputType>
         <TargetFramework>net9.0</TargetFramework>
         <Nullable>enable</Nullable>
+        <RootNamespace>Sample</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="../SourceGen/SourceGen.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer" />
+        <ProjectReference Include="../TypedPath.SourceGen/TypedPath.SourceGen.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer" />
     </ItemGroup>
 
     <ItemGroup>
