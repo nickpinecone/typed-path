@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace SourceGen;
+namespace TypedPath.SourceGen;
 
 public static class CaseConverter
 {

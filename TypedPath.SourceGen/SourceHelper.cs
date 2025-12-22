@@ -2,7 +2,7 @@ using System.Collections.Immutable;
 using System.Text;
 using Microsoft.CodeAnalysis;
 
-namespace SourceGen;
+namespace TypedPath.SourceGen;
 
 public static class SourceHelper
 {

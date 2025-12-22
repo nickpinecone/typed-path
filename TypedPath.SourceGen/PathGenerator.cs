@@ -2,10 +2,9 @@
 using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Text;
 
-namespace SourceGen;
+namespace TypedPath.SourceGen;
 
 [Generator]
 public class PathGenerator : IIncrementalGenerator

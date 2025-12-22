@@ -1,8 +1,7 @@
-﻿using TypedPath;
-using System;
+﻿using System;
 using System.IO;
 
-namespace Sample;
+namespace TypedPath.Sample;
 
 [TypedPath("Assets")]
 public partial class Assets : ITypedPath

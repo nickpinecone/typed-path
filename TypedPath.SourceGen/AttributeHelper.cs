@@ -1,6 +1,6 @@
 using Microsoft.CodeAnalysis;
 
-namespace SourceGen;
+namespace TypedPath.SourceGen;
 
 public static class AttributeHelper
 {

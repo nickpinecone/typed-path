@@ -8,14 +8,13 @@
         <LangVersion>latest</LangVersion>
 
         <PackageId>Pinecone.TypedPath</PackageId>
-        <Version>1.0.2</Version>
+        <Version>1.0.3</Version>
         <Description>.NET source generator for strongly typed file paths</Description>
         <Authors>Nick Pinecone</Authors>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <RepositoryUrl>https://github.com/nickpinecone/typed-path</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <RootNamespace>SourceGen</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
