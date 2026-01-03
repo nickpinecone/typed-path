@@ -1,10 +1,22 @@
 # Typed Path
+
+[![Nuget](https://img.shields.io/nuget/v/Pinecone.TypedPath?style=flat-square)](https://www.nuget.org/packages/Pinecone.TypedPath)
+[![License](https://img.shields.io/github/license/nickpinecone/typed-path?style=flat-square)](https://github.com/nickpinecone/typed-path/blob/main/LICENSE.md)
+[![GitHub](https://img.shields.io/badge/-source-181717.svg?logo=GitHub)](https://github.com/nickpinecone/typed-path)
+
 .NET source generator for strongly typed file paths
 
 ## Install
 Install the package from nuget
 ```sh
 dotnet add package Pinecone.TypedPath
+```
+
+Make sure to include the package as a source generator
+```xml
+<ItemGroup>
+    <PackageReference Include="Pinecone.TypedPath" Version="..." ReferenceOutputAssembly="false" OutputItemType="Analyzer" />
+</ItemGroup>
 ```
 
 ## Configuration
@@ -18,7 +30,7 @@ First add the folder to .csproj as AdditionalFiles
 ```
 
 Then define a partial class with `TypedPath` attribute and `ITypedPath` interface
-```csharp
+```cs
 [TypedPath("Assets")]
 public partial class Assets : ITypedPath
 {
@@ -30,7 +42,7 @@ public partial class Assets : ITypedPath
 ```
 
 After that you can just reference the path you need
-```csharp
+```cs
 > Console.WriteLine(Assets.SubFolder.NestedFolder.SuperNested);
 
 Assets/SubFolder/NestedFolder/SuperNested.json
