@@ -8,7 +8,7 @@ public static class AttributeHelper
     {
         foreach (var namedArg in attribute.NamedArguments)
         {
-            if (namedArg.Key == argumentName)
+            if (namedArg.Key.ToLower() == argumentName.ToLower())
             {
                 return namedArg.Value.Value?.ToString();
             }
@@ -20,7 +20,7 @@ public static class AttributeHelper
         {
             for (var i = 0; i < constructorParams.Value.Length; i++)
             {
-                if (constructorParams.Value[i].Name == argumentName.ToLower() &&
+                if (constructorParams.Value[i].Name.ToLower() == argumentName.ToLower() &&
                     i < attribute.ConstructorArguments.Length)
                 {
                     return attribute.ConstructorArguments[i].Value?.ToString();

@@ -6,9 +6,10 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>true</ImplicitUsings>
         <LangVersion>latest</LangVersion>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 
         <PackageId>Pinecone.TypedPath</PackageId>
-        <Version>1.0.3</Version>
+        <Version>1.0.4</Version>
         <Description>.NET source generator for strongly typed file paths</Description>
         <Authors>Nick Pinecone</Authors>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>

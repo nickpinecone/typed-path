@@ -22,10 +22,12 @@ public static class SourceHelper
           public class TypedPathAttribute : Attribute
           {
               public string Path { get; }
+              public bool OriginalFilename { get; }
 
-              public TypedPathAttribute(string path)
+              public TypedPathAttribute(string path, bool originalFilename = false)
               {
                   Path = path;
+                  OriginalFilename = originalFilename;
               }
           }
           """;
@@ -44,9 +46,11 @@ public static class SourceHelper
     private static string GeneratedCodeAttribute =>
         "[global::System.CodeDom.Compiler.GeneratedCode(\"TypedPath\", \"1.0.0\")]";
 
-    public static string GenerateTyped(string name, string attrPath, string namespaceName,
+    public static string GenerateTyped(string name, AttributeData attr, string namespaceName,
         ImmutableArray<AdditionalText> files)
     {
+        var attrPath = attr.GetArgumentValue("Path") ?? name;
+        var attrOriginalFilename = attr.GetArgumentValue("OriginalFilename") ?? false.ToString();
         var builder = new StringBuilder();
 
         if (!string.IsNullOrEmpty(namespaceName))
@@ -61,7 +65,12 @@ public static class SourceHelper
 
         foreach (var file in files)
         {
-            var filename = Path.GetFileNameWithoutExtension(file.Path).ToPascalCase();
+            var filename = Path.GetFileNameWithoutExtension(file.Path);
+            if (attrOriginalFilename == false.ToString())
+            {
+                filename = filename.ToPascalCase();
+            }
+
             var split = file.Path.Split([attrPath], StringSplitOptions.None);
 
             if (split.Length < 2)

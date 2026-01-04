@@ -3,7 +3,7 @@ using System.IO;
 
 namespace TypedPath.Sample;
 
-[TypedPath("Assets")]
+[TypedPath("Assets", originalFilename: true)]
 public partial class Assets : ITypedPath
 {
     public static string Wrap(string path)
@@ -25,8 +25,9 @@ public class Program
 {
     public static void Main(string[] args)
     {
+        Console.WriteLine(Assets.image);
         Console.WriteLine(Assets.SubFolder.NestedFolder.SuperNested);
-        Console.WriteLine(Assets.SubFolder.Logo);
+        Console.WriteLine(Assets.SubFolder.logo);
         Console.WriteLine(SubFolder.Logo);
     }
 }
